@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="○○구청 대표 홈페이지" />
+  <title>○○구청 - 대표 홈페이지</title>
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --card:#f9fafb;
+
+      --brand:#0f4c81;     /* 구청 메인 컬러 */
+      --brand2:#0a7aa8;    /* 서브 포인트 */
+      --accent:#f59e0b;    /* 강조 */
+      --radius:16px;
+      --shadow: 0 10px 30px rgba(17,24,39,.08);
+      --max: 1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", Arial, "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#f6f9fc, #fff 240px);
+    }
+    a{color:inherit; text-decoration:none}
+    a:focus-visible, button:focus-visible, input:focus-visible{
+      outline:3px solid rgba(245,158,11,.45);
+      outline-offset:2px;
+      border-radius:10px;
+    }
+
+    /* 접근성: 스킵 링크 */
+    .skip{
+      position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+    }
+    .skip:focus{
+      position:fixed; left:16px; top:16px; width:auto; height:auto;
+      padding:10px 14px; background:#111827; color:#fff; z-index:9999;
+      border-radius:12px;
+    }
+
+    /* 공통 레이아웃 */
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 16px;}
+    .topbar{
+      background:rgba(255,255,255,.85);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+      position:sticky; top:0; z-index:50;
+    }
+    .topbar-inner{
+      display:flex; align-items:center; gap:16px;
+      padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; min-width: 230px;
+    }
+    .logo{
+      width:42px; height:42px; border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, #8fd3ff, var(--brand));
+      box-shadow: 0 8px 18px rgba(15,76,129,.25);
+    }
+    .brand h1{
+      font-size:16px; line-height:1.1; margin:0;
+    }
+    .brand small{display:block; color:var(--muted); font-weight:500; margin-top:2px;}
+
+    .search{
+      flex:1;
+      display:flex; gap:8px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:8px;
+      box-shadow: 0 10px 20px rgba(17,24,39,.05);
+    }
+    .search input{
+      flex:1; border:0; background:transparent; padding:8px 10px;
+      font-size:14px;
+    }
+    .search button{
+      border:0;
+      padding:10px 12px;
+      border-radius:12px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color:#fff; font-weight:700;
+      cursor:pointer;
+    }
+
+    .top-links{
+      display:flex; gap:8px; align-items:center;
+    }
+    .pill{
+      border:1px solid var(--line);
+      background:#fff;
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      color:#374151;
+      display:inline-flex; gap:8px; align-items:center;
+      white-space:nowrap;
+    }
+    .pill strong{color:var(--brand)}
+    .pill:hover{border-color:#cbd5e1}
+
+    /* 메인 내비 */
+    .nav{
+      background:#fff;
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{
+      display:flex; gap:10px;
+      padding:10px 0;
+      flex-wrap:wrap;
+    }
+    .nav a{
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:700;
+      color:#1f2937;
+    }
+    .nav a:hover{
+      background:#f3f4f6;
+      color:var(--brand);
+    }
+
+    /* 히어로 */
+    .hero{
+      padding:22px 0 16px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    .hero-card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background:#fff;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero-main{
+      padding:20px;
+      background:
+        radial-gradient(900px 300px at 20% 10%, rgba(15,76,129,.18), transparent 50%),
+        radial-gradient(900px 300px at 80% 0%, rgba(10,122,168,.16), transparent 45%),
+        #fff;
+    }
+    .hero-kicker{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:7px 10px;
+      border-radius:999px;
+      background: rgba(15,76,129,.08);
+      color:var(--brand);
+      font-weight:800;
+      font-size:12px;
+    }
+    .hero-title{
+      margin:14px 0 8px;
+      font-size:28px;
+      letter-spacing:-0.02em;
+      line-height:1.2;
+    }
+    .hero-desc{
+      margin:0 0 16px;
+      color:#374151;
+      line-height:1.6;
+    }
+    .hero-cta{
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .btn{
+      border:1px solid var(--line);
+      padding:11px 12px;
+      border-radius:14px;
+      background:#fff;
+      font-weight:800;
+      cursor:pointer;
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .btn.primary{
+      border:0;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color:#fff;
+    }
+    .btn:hover{transform: translateY(-1px)}
+    .btn:active{transform: translateY(0px)}
+
+    .hero-side{
+      display:flex; flex-direction:column;
+    }
+    .side-item{
+      padding:16px;
+      border-bottom:1px solid var(--line);
+    }
+    .side-item:last-child{border-bottom:0}
+    .side-title{
+      display:flex; justify-content:space-between; align-items:center;
+      font-weight:900;
+      color:#0b1220;
+      margin:0 0 8px;
+    }
+    .side-title span{font-size:12px; color:var(--muted); font-weight:700}
+    .side-list{display:grid; gap:8px}
+    .side-link{
+      padding:10px 12px;
+      border-radius:12px;
+      background: var(--card);
+      border:1px solid var(--line);
+      display:flex; justify-content:space-between; gap:10px;
+      font-size:14px;
+    }
+    .side-link:hover{background:#fff}
+    .tag{
+      font-size:12px;
+      font-weight:800;
+      color:#92400e;
+      background: rgba(245,158,11,.18);
+      padding:4px 8px;
+      border-radius:999px;
+      white-space:nowrap;
+      align-self:center;
+    }
+
+    /* 퀵서비스 */
+    .section{padding:12px 0 18px}
+    .section-head{
+      display:flex; justify-content:space-between; align-items:flex-end; gap:12px;
+      margin:18px 0 10px;
+    }
+    .section-head h2{margin:0; font-size:18px}
+    .section-head p{margin:0; color:var(--muted); font-size:13px}
+
+    .quick{
+      display:grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap:10px;
+    }
+    .quick a{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px 10px;
+      text-align:center;
+      box-shadow: 0 10px 20px rgba(17,24,39,.04);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .quick a:hover{transform: translateY(-2px); border-color:#cbd5e1}
+    .ico{
+      width:40px; height:40px;
+      border-radius:14px;
+      margin:0 auto 8px;
+      background: linear-gradient(135deg, rgba(15,76,129,.16), rgba(10,122,168,.12));
+      display:grid; place-items:center;
+      font-weight:900;
+      color:var(--brand);
+    }
+    .quick span{display:block; font-weight:900; font-size:13px}
+    .quick small{display:block; margin-top:4px; color:var(--muted); font-size:12px}
+
+    /* 공지/소식 영역 */
+    .grid-2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    .panel{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panel-head{
+      padding:14px 16px;
+      display:flex; justify-content:space-between; align-items:center;
+      border-bottom:1px solid var(--line);
+    }
+    .panel-head h3{margin:0; font-size:16px}
+    .panel-head a{font-size:13px; color:var(--brand); font-weight:900}
+    .list{
+      margin:0; padding:0; list-style:none;
+    }
+    .list li{
+      display:flex; justify-content:space-between; gap:10px;
+      padding:12px 16px;
+      border-bottom:1px solid var(--line);
+    }
+    .list li:last-child{border-bottom:0}
+    .list a{
+      color:#111827;
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+      max-width: 75%;
+      font-weight:700;
+    }
+    .date{
+      color:var(--muted);
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .list li:hover{background:#f9fafb}
+
+    /* 배너/콜아웃 */
+    .callouts{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:14px;
+    }
+    .callout{
+      border-radius: var(--radius);
+      padding:16px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(600px 180px at 10% 10%, rgba(245,158,11,.18), transparent 50%),
+        #fff;
+      box-shadow: var(--shadow);
+    }
+    .callout h4{margin:0 0 6px; font-size:15px}
+    .callout p{margin:0 0 12px; color:#374151; line-height:1.55; font-size:13px}
+    .callout .btn{padding:10px 12px; border-radius:12px}
+
+    /* 푸터 */
+    footer{
+      margin-top:24px;
+      padding:22px 0;
+      background:#0b1220;
+      color:#e5e7eb;
+    }
+    .foot-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:start;
+    }
+    .foot-grid a{color:#e5e7eb; opacity:.9}
+    .foot-links{
+      display:flex; gap:10px; flex-wrap:wrap;
+      font-size:13px;
+      opacity:.95;
+    }
+    .foot-meta{
+      opacity:.85; font-size:13px; line-height:1.7;
+    }
+    .badge{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 10px;
+      border:1px solid rgba(229,231,235,.18);
+      border-radius:999px;
+      font-size:12px;
+      opacity:.95;
+      margin-top:10px;
+    }
+
+    /* 반응형 */
+    @media (max-width: 1100px){
+      .quick{grid-template-columns: repeat(4, 1fr);}
+      .callouts{grid-template-columns: 1fr;}
+    }
+    @media (max-width: 900px){
+      .hero-grid{grid-template-columns: 1fr;}
+      .brand{min-width:auto}
+      .top-links{display:none}
+      .grid-2{grid-template-columns: 1fr;}
+    }
+    @media (max-width: 520px){
+      .hero-title{font-size:22px}
+      .search{display:none}
+      .nav-inner a{font-size:14px}
+      .quick{grid-template-columns: repeat(2, 1fr);}
+      .list a{max-width: 68%;}
+      .foot-grid{grid-template-columns: 1fr;}
+    }
+  </style>
+</head>
+<!-- Chatbot Widget (Minimal) -->
+<style>
+  .cb-btn{
+    position:fixed; right:18px; bottom:18px; z-index:9999;
+    border:0; border-radius:999px; padding:14px 16px;
+    background: linear-gradient(135deg, #0f4c81, #0a7aa8);
+    color:#fff; font-weight:800; cursor:pointer;
+    box-shadow: 0 14px 30px rgba(17,24,39,.18);
+  }
+  .cb-panel{
+    position:fixed; right:18px; bottom:74px; z-index:9999;
+    width:360px; max-width: calc(100vw - 36px);
+    height:520px; max-height: calc(100vh - 120px);
+    background:#fff; border:1px solid #e5e7eb; border-radius:18px;
+    overflow:hidden; box-shadow: 0 18px 50px rgba(17,24,39,.18);
+    display:none;
+  }
+  .cb-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 14px; background:#0b1220; color:#fff;
+  }
+  .cb-head strong{font-size:14px}
+  .cb-head button{border:0; background:transparent; color:#fff; font-size:18px; cursor:pointer;}
+  .cb-body{
+    padding:12px; height: calc(100% - 112px);
+    overflow:auto; background:#f9fafb;
+  }
+  .cb-msg{margin:10px 0; display:flex;}
+  .cb-msg.user{justify-content:flex-end;}
+  .cb-bubble{
+    max-width: 82%;
+    padding:10px 12px; border-radius:14px;
+    border:1px solid #e5e7eb; background:#fff;
+    white-space:pre-wrap; line-height:1.55; font-size:13px;
+  }
+  .cb-msg.user .cb-bubble{
+    background:#0f4c81; color:#fff; border-color:#0f4c81;
+  }
+  .cb-foot{
+    border-top:1px solid #e5e7eb; background:#fff;
+    padding:10px;
+  }
+  .cb-foot form{display:flex; gap:8px;}
+  .cb-foot input{
+    flex:1; border:1px solid #e5e7eb; border-radius:12px;
+    padding:10px 12px; font-size:13px;
+  }
+  .cb-foot button{
+    border:0; border-radius:12px; padding:10px 12px;
+    background:#111827; color:#fff; font-weight:800; cursor:pointer;
+  }
+  .cb-note{
+    margin-top:8px; color:#6b7280; font-size:11px; line-height:1.4;
+  }
+</style>
+
+<button class="cb-btn" id="cbOpen">민원 안내 챗봇</button>
+
+<div class="cb-panel" id="cbPanel" role="dialog" aria-label="민원 안내 챗봇">
+  <div class="cb-head">
+    <strong>민원 안내 챗봇</strong>
+    <button id="cbClose" aria-label="닫기">×</button>
+  </div>
+
+  <div class="cb-body" id="cbBody">
+    <div class="cb-msg">
+      <div class="cb-bubble">
+안녕하세요. 민원 신청 절차/서류/수수료/처리기간을 안내해드려요.
+예) “전입신고 서류 뭐 필요해?”, “대리 접수 가능해?”
+      </div>
+    </div>
+  </div>
+
+  <div class="cb-foot">
+    <form id="cbForm">
+      <input id="cbInput" placeholder="질문을 입력하세요" autocomplete="off" />
+      <button type="submit">전송</button>
+    </form>
+    <div class="cb-note">
+※ 개인정보(주민등록번호/계좌번호 등)는 입력하지 마세요. 답변은 참고용이며 최종 확인은 담당부서 안내를 따르세요.
+    </div>
+  </div>
+</div>
+
+<script>
+  const openBtn = document.getElementById('cbOpen');
+  const panel = document.getElementById('cbPanel');
+  const closeBtn = document.getElementById('cbClose');
+  const body = document.getElementById('cbBody');
+  const form = document.getElementById('cbForm');
+  const input = document.getElementById('cbInput');
+
+  function addMsg(text, who='bot'){
+    const row = document.createElement('div');
+    row.className = 'cb-msg ' + (who === 'user' ? 'user' : '');
+    const bubble = document.createElement('div');
+    bubble.className = 'cb-bubble';
+    bubble.textContent = text;
+    row.appendChild(bubble);
+    body.appendChild(row);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  openBtn.onclick = () => { panel.style.display = 'block'; input.focus(); };
+  closeBtn.onclick = () => { panel.style.display = 'none'; };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if(!q) return;
+    input.value = '';
+    addMsg(q, 'user');
+    addMsg('답변 생성 중…', 'bot');
+
+    try{
+      const res = await fetch('/api/chat', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ message: q })
+      });
+      const data = await res.json();
+      // 마지막 "답변 생성 중…" 메시지를 지우고 실제 답변으로 대체
+      body.removeChild(body.lastElementChild);
+      addMsg(data.answer || '죄송해요. 답변을 생성하지 못했어요.');
+    }catch(err){
+      body.removeChild(body.lastElementChild);
+      addMsg('오류가 발생했어요. 잠시 후 다시 시도해주세요.');
+    }
+  });
+</script>
+
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+
+  <!-- 상단 -->
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <a class="brand" href="#" aria-label="○○구청 홈">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>○○구청</h1>
+            <small>시민과 함께 만드는 안전한 도시</small>
+          </div>
+        </a>
+
+        <form class="search" role="search" aria-label="통합검색">
+          <input type="search" placeholder="검색어를 입력하세요 (예: 주민등록등본, 채용, 행사)" aria-label="검색어" />
+          <button type="submit" aria-label="검색">검색</button>
+        </form>
+
+        <div class="top-links" aria-label="상단 바로가기">
+          <a class="pill" href="#"><strong>전자민원</strong></a>
+          <a class="pill" href="#">조직도</a>
+          <a class="pill" href="#">오시는 길</a>
+          <a class="pill" href="#">EN</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 메뉴 -->
+    <nav class="nav" aria-label="주요 메뉴">
+      <div class="wrap">
+        <div class="nav-inner">
+          <a href="#">민원·신청</a>
+          <a href="#">참여·소통</a>
+          <a href="#">정보공개</a>
+          <a href="#">분야별정보</a>
+          <a href="#">구정소식</a>
+          <a href="#">청사안내</a>
+          <a href="#">채용·입찰</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <main id="main" class="wrap">
+    <!-- 히어로 -->
+    <section class="hero" aria-label="주요 안내">
+      <div class="hero-grid">
+        <div class="hero-card hero-main">
+          <div class="hero-kicker" aria-label="공지 배지">📌 안내 · 2026년 주요 서비스</div>
+          <h2 class="hero-title">한 번에 찾는 생활민원 · 복지 · 교통 · 안전 정보</h2>
+          <p class="hero-desc">
+            자주 찾는 민원 서비스를 빠르게 이용하고, 최신 공지와 행사 소식을 확인하세요.
+            필요한 서비스는 <b>통합검색</b> 또는 <b>민원 바로가기</b>에서 바로 접근할 수 있어요.
+          </p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#">민원24/전자민원 바로가기</a>
+            <a class="btn" href="#">분야별정보 전체보기</a>
+            <a class="btn" href="#">민원처리 진행조회</a>
+          </div>
+        </div>
+
+        <aside class="hero-card hero-side" aria-label="핵심 알림">
+          <div class="side-item">
+            <p class="side-title">긴급/안전 안내 <span>실시간</span></p>
+            <div class="side-list">
+              <a class="side-link" href="#">
+                <span>한파 대비 취약계층 보호 안내</span>
+                <span class="tag">안전</span>
+              </a>
+              <a class="side-link" href="#">
+                <span>도로 결빙 구간 제설 현황</span>
+                <span class="tag">교통</span>
+              </a>
+            </div>
+          </div>
+          <div class="side-item">
+            <p class="side-title">오늘의 민원 안내 <span>업데이트</span></p>
+            <div class="side-list">
+              <a class="side-link" href="#">
+                <span>주민등록 등·초본 발급 방법</span>
+                <span class="tag">민원</span>
+              </a>
+              <a class="side-link" href="#">
+                <span>주차 단속 문자알림 신청</span>
+                <span class="tag">생활</span>
+              </a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 민원 바로가기 -->
+    <section class="section" aria-label="민원 바로가기">
+      <div class="section-head">
+        <div>
+          <h2>민원 바로가기</h2>
+          <p>가장 많이 찾는 서비스를 한 화면에서</p>
+        </div>
+        <a class="pill" href="#" aria-label="민원 전체보기">전체보기 →</a>
+      </div>
+
+      <div class="quick" role="list">
+        <a href="#" role="listitem"><div class="ico">①</div><span>민원신청</span><small>온라인 접수</small></a>
+        <a href="#" role="listitem"><div class="ico">②</div><span>민원서식</span><small>다운로드</small></a>
+        <a href="#" role="listitem"><div class="ico">③</div><span>복지서비스</span><small>지원/신청</small></a>
+        <a href="#" role="listitem"><div class="ico">④</div><span>생활불편</span><small>신고/제보</small></a>
+        <a href="#" role="listitem"><div class="ico">⑤</div><span>주차/교통</span><small>단속/요금</small></a>
+        <a href="#" role="listitem"><div class="ico">⑥</div><span>세금/납부</span><small>지방세</small></a>
+        <a href="#" role="listitem"><div class="ico">⑦</div><span>예약</span><small>시설/교육</small></a>
+        <a href="#" role="listitem"><div class="ico">⑧</div><span>콜센터</span><small>전화안내</small></a>
+      </div>
+    </section>
+
+    <!-- 공지/소식 -->
+    <section class="section" aria-label="구정 소식">
+      <div class="grid-2">
+        <div class="panel" aria-label="공지사항">
+          <div class="panel-head">
+            <h3>공지사항</h3>
+            <a href="#" aria-label="공지사항 더보기">더보기 →</a>
+          </div>
+          <ul class="list">
+            <li><a href="#">2026년 상반기 주민참여예산 제안 접수</a><span class="date">2026-02-14</span></li>
+            <li><a href="#">동 주민센터 민원창구 운영시간 안내</a><span class="date">2026-02-12</span></li>
+            <li><a href="#">쓰레기 배출 요일 및 분리배출 가이드</a><span class="date">2026-02-10</span></li>
+            <li><a href="#">구청 홈페이지 서비스 점검 안내</a><span class="date">2026-02-08</span></li>
+          </ul>
+        </div>
+
+        <div class="panel" aria-label="채용·입찰·공고">
+          <div class="panel-head">
+            <h3>채용 · 입찰 · 공고</h3>
+            <a href="#" aria-label="채용·입찰 더보기">더보기 →</a>
+          </div>
+          <ul class="list">
+            <li><a href="#">기간제 근로자 채용 공고(환경정비)</a><span class="date">2026-02-13</span></li>
+            <li><a href="#">공공시설 전기안전 점검 용역 입찰</a><span class="date">2026-02-11</span></li>
+            <li><a href="#">청사 안내데스크 운영 위탁 공고</a><span class="date">2026-02-09</span></li>
+            <li><a href="#">지역사회서비스 투자사업 제공기관 모집</a><span class="date">2026-02-07</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 행사/교육 + 보도자료 -->
+    <section class="section" aria-label="행사 및 보도자료">
+      <div class="grid-2">
+        <div class="panel" aria-label="행사·교육">
+          <div class="panel-head">
+            <h3>행사 · 교육</h3>
+            <a href="#" aria-label="행사·교육 더보기">더보기 →</a>
+          </div>
+          <ul class="list">
+            <li><a href="#">주민 대상 심폐소생술 교육(2월)</a><span class="date">2026-02-15</span></li>
+            <li><a href="#">청년 취업 특강: 이력서/면접</a><span class="date">2026-02-18</span></li>
+            <li><a href="#">도시농업 텃밭 분양 신청 안내</a><span class="date">2026-02-20</span></li>
+            <li><a href="#">어르신 스마트폰 교실(초급)</a><span class="date">2026-02-22</span></li>
+          </ul>
+        </div>
+
+        <div class="panel" aria-label="보도자료">
+          <div class="panel-head">
+            <h3>보도자료</h3>
+            <a href="#" aria-label="보도자료 더보기">더보기 →</a>
+          </div>
+          <ul class="list">
+            <li><a href="#">○○구, 취약계층 난방비 지원 확대</a><span class="date">2026-02-14</span></li>
+            <li><a href="#">불법 주정차 단속구간 정비 및 안내 강화</a><span class="date">2026-02-12</span></li>
+            <li><a href="#">소상공인 경영안정 지원사업 추진</a><span class="date">2026-02-10</span></li>
+            <li><a href="#">생활안전 CCTV 추가 설치 계획</a><span class="date">2026-02-08</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 배너/콜아웃 -->
+    <section class="section" aria-label="주요 서비스 배너">
+      <div class="section-head">
+        <div>
+          <h2>주요 서비스</h2>
+          <p>필요한 정보를 더 빠르게</p>
+        </div>
+      </div>
+
+      <div class="callouts">
+        <div class="callout">
+          <h4>민원 상담 · 콜센터</h4>
+          <p>일반민원, 생활불편, 세금/납부 문의를 한 곳에서 안내합니다.</p>
+          <a class="btn" href="#">전화/채팅 안내 →</a>
+        </div>
+        <div class="callout">
+          <h4>복지 서비스 안내</h4>
+          <p>생애주기별 지원사업과 신청 자격을 쉽게 확인할 수 있어요.</p>
+          <a class="btn" href="#">복지 서비스 찾기 →</a>
+        </div>
+        <div class="callout">
+          <h4>시설 · 교육 예약</h4>
+          <p>체육시설, 주민센터 강좌, 대관 신청을 온라인으로 예약하세요.</p>
+          <a class="btn" href="#">예약 바로가기 →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer aria-label="푸터">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="foot-links">
+            <a href="#">개인정보처리방침</a>
+            <a href="#">저작권정책</a>
+            <a href="#">이메일무단수집거부</a>
+            <a href="#">홈페이지 개선의견</a>
+          </div>
+          <div class="foot-meta" style="margin-top:12px;">
+            (우) 00000 서울특별시 ○○구 ○○로 00 (○○동)<br/>
+            대표전화 02-0000-0000 · 팩스 02-0000-0001 · 야간/긴급 120<br/>
+            © 2026 ○○구청. All rights reserved.
+          </div>
+          <div class="badge" aria-label="접근성 안내">♿ 웹 접근성 준수 · 키보드 이동 지원</div>
+        </div>
+
+        <div class="foot-meta">
+          <b>민원 안내</b><br/>
+          평일 09:00~18:00 (점심 12:00~13:00)<br/>
+          토/일/공휴일 휴무<br/><br/>
+          <b>자주 찾는 번호</b><br/>
+          세무: 02-0000-1000<br/>
+          복지: 02-0000-2000<br/>
+          주차: 02-0000-3000
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 데모용: 검색 submit 막기 (원하면 제거)
+    document.querySelector('.search')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('데모 화면입니다. 실제 검색 API와 연동하면 동작합니다.');
+    });
+  </script>
+</body>
+</html>
